@@ -1,0 +1,10 @@
+
+const ACCOUNT_TYPE = {
+    SYSTEM: 'SYSTEM',
+    GOOGLE: 'GOOGLE',
+    GITHUB: 'GITHUB',
+}
+
+const TOTAL_ITEM_PER_PAGE = 5
+
+export {TOTAL_ITEM_PER_PAGE, ACCOUNT_TYPE}
