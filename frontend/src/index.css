@@ -132,3 +132,18 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.checked-customize[data-state="checked"] {
+  background-color: #81c408;
+  border-color: #81c408;
+  color: #ffffff;
+}
+
+.radio-customize[data-state="checked"] {
+  background-color: #81c408;
+  border-color: #81c408;
+}
+
+.radio-customize[data-state="checked"] > span {
+  background-color: #ffffff;
+}
