@@ -9,6 +9,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import ProductCard from "./ProductCart";
+import { Link } from "react-router-dom";
 
 const products = [
   // Dữ liệu mẫu
@@ -48,19 +49,22 @@ const FeaturedProductsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800">Sản phẩm nổi bật</h2>
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold">
+          <Link
+            to="/product"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded px-4 py-2"
+          >
             All Products
-          </Button>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {products.slice(0, 4).map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
         </div>
 
         {/* Giả định các sản phẩm khác ở trang 2 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
           {products.slice(0, 4).map((product, index) => (
             <ProductCard
               key={index + 4}
@@ -73,12 +77,10 @@ const FeaturedProductsSection = () => {
         <div className="flex justify-center mt-8">
           <Pagination>
             <PaginationContent>
-              {/* Previous */}
               <PaginationItem>
                 <PaginationPrevious className="hover:text-lime-600" />
               </PaginationItem>
 
-              {/* Page 1 (active) */}
               <PaginationItem>
                 <PaginationLink
                   isActive
@@ -88,14 +90,12 @@ const FeaturedProductsSection = () => {
                 </PaginationLink>
               </PaginationItem>
 
-              {/* Page 2 */}
               <PaginationItem>
                 <PaginationLink className="hover:text-lime-600">
                   2
                 </PaginationLink>
               </PaginationItem>
 
-              {/* Next */}
               <PaginationItem>
                 <PaginationNext className="hover:text-lime-600" />
               </PaginationItem>

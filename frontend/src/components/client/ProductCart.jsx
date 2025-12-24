@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => (
       <img
         src={product.image}
         alt={product.name}
-        className="w-full h-50 object-cover rounded-t-lg hover:scale-110 transition-transform duration-500 ease-out"
+        className="w-full h-50   object-cover rounded-t-lg hover:scale-110 transition-transform duration-500 ease-out"
       />
       <span className="absolute top-2 left-2 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded">
         {product.label}

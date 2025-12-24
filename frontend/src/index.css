@@ -127,7 +127,7 @@
       rgba(248, 223, 173, 0.1),
       rgba(248, 223, 173, 0.1)
     ),
-    url("/public/image/banner/hero-img.jpg");
+    url("/image/banner/hero-img.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

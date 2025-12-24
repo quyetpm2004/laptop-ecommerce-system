@@ -1,71 +1,85 @@
-import { prisma } from "config/client"
-import { comparePassword } from "./user.service"
-import jwt from "jsonwebtoken"
-import "dotenv/config"
+import { prisma } from "config/client";
+import { comparePassword } from "./user.service";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 const handleGetUsersAPI = async () => {
-    const users = await prisma.user.findMany()
+  const users = await prisma.user.findMany();
 
-    return users
-}
+  return users;
+};
 
 const handleGetUserByIdAPI = async (id: number) => {
-    return await prisma.user.findUnique({
-        where: {id}
-    })
-}
+  return await prisma.user.findUnique({
+    where: { id },
+  });
+};
 
-const handleUpdateUserById = async (id: number, fullName: string, phone: string, address: string) => {
-    await prisma.user.update({
-        where: {id: id},
-        data: {
-            fullName,
-            phone,
-            address
-        }
-    })
-}
+const handleUpdateUserById = async (
+  id: number,
+  fullName: string,
+  phone: string,
+  address: string
+) => {
+  await prisma.user.update({
+    where: { id: id },
+    data: {
+      fullName,
+      phone,
+      address,
+    },
+  });
+};
 
 const handleDeleteUser = async (userId: number) => {
-    await prisma.user.delete({
-        where: {
-            id: userId
-        }
-    })
-}
+  await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+};
 
 const handleUserLogin = async (username: string, password: string) => {
-    const user = await prisma.user.findUnique({
-        where: {username},
-        include: {
-            role: true
-        }
-    })
-    if(!user) {
-        throw new Error('Username not found')
-    }
-    const isMatch = await comparePassword(password, user.password)
-    if(!isMatch) {
-        throw new Error('Invalid password')
-    }
+  const user = await prisma.user.findUnique({
+    where: { username },
+    include: { role: true },
+  });
 
-    const payload = {
-        id: user.id, 
-        username: user.username,
-        roleId: user.roleId,
-        accountType: user.accountType,
-        avatar: user.avatar,
-        role: user.role
-    }
+  if (!user) {
+    throw new Error("Invalid username or password");
+  }
 
-    const secret = process.env.JWT_SECRET
-    // có user login => định nghĩa access token
-    const access_token = jwt.sign(payload, secret, {
-        expiresIn: "1d"
-    })
+  const isMatch = await comparePassword(password, user.password);
+  if (!isMatch) {
+    throw new Error("Invalid username or password");
+  }
 
-    return access_token
-}
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
 
+  const payload = {
+    id: user.id,
+    username: user.username,
+    role: user.role.name, // hoặc roleId
+    accountType: user.accountType,
+    avatar: user.avatar,
+  };
 
-export { handleGetUsersAPI, handleGetUserByIdAPI, handleUpdateUserById, handleDeleteUser, handleUserLogin }
+  const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "356d",
+  });
+
+  return {
+    token: accessToken,
+    user: payload,
+  };
+};
+
+export {
+  handleGetUsersAPI,
+  handleGetUserByIdAPI,
+  handleUpdateUserById,
+  handleDeleteUser,
+  handleUserLogin,
+};
