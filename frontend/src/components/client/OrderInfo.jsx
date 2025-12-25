@@ -1,16 +1,6 @@
-import { useState } from "react";
 import { Button } from "../ui/button";
 
-const OrderInfo = () => {
-  const [cartItems] = useState([
-    {
-      id: 1,
-      name: "Laptop Asus TUF Gaming",
-      price: 17490000,
-      quantity: 1,
-      image: "/path/to/asus-tuf.jpg", // Thay bằng link ảnh thật
-    },
-  ]);
+const OrderInfo = ({ cartItems }) => {
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0

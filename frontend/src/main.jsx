@@ -8,7 +8,7 @@ import ProductPage from "./page/client/ProductPage";
 import LoginPage from "./page/auth/Login";
 import RegisterPage from "./page/auth/Register";
 import DetailPage from "./page/client/DetailPage";
-import CartPage from "./page/client/CardPage";
+import CartPage from "./page/client/CartPage";
 import CheckoutPage from "./page/client/CheckoutPage";
 import { Toaster } from "@/components/ui/sonner";
 

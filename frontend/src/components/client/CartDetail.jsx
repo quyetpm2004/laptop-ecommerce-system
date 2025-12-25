@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,33 +10,16 @@ import {
 } from "@/components/ui/table";
 import { Plus, Minus, X } from "lucide-react";
 import { Link } from "react-router-dom";
-const CardDetail = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Laptop Asus TUF Gaming",
-      price: 17490000,
-      quantity: 1,
-      image: "/image/test/1711078452562-dell-01.png",
-    },
-    {
-      id: 2,
-      name: "Laptop Asus TUF Gaming",
-      price: 17490000,
-      quantity: 1,
-      image: "/image/test/1711078452562-dell-01.png",
-    },
-  ]);
-
-  const updateQuantity = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
+const CardDetail = ({ cartItems }) => {
+  // const updateQuantity = (id, delta) => {
+  //   // setCartItems((prev) =>
+  //   //   prev.map((item) =>
+  //   //     item.id === id
+  //   //       ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+  //   //       : item
+  //   //   )
+  //   // );
+  // };
 
   const removeItem = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
@@ -64,7 +47,9 @@ const CardDetail = () => {
               <TableCell>
                 <div className="w-16 h-16 rounded-full overflow-hidden border">
                   <img
-                    src={item.image}
+                    src={`${
+                      import.meta.env.VITE_BASE_URL_BACKEND
+                    }/images/product/${item.image}`}
                     alt={item.name}
                     className="w-full h-full object-cover"
                   />
@@ -87,7 +72,7 @@ const CardDetail = () => {
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 rounded-full bg-gray-100"
-                    onClick={() => updateQuantity(item.id, -1)}
+                    // onClick={() => updateQuantity(item.id, -1)}
                   >
                     <Minus className="h-3 w-3" />
                   </Button>

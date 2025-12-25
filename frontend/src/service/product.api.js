@@ -4,4 +4,14 @@ const getProductHomePage = async () => {
   return await axios.get("/products");
 };
 
-export { getProductHomePage };
+const getProductByFilter = async (params) => {
+  return await axios.get("/products/filter", {
+    params,
+  });
+};
+
+const getProductDetail = async (id) => {
+  return await axios.get(`/products/${id}`);
+};
+
+export { getProductHomePage, getProductByFilter, getProductDetail };

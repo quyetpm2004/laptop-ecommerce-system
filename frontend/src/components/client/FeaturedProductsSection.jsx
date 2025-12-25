@@ -1,4 +1,4 @@
-import ProductCard from "./ProductCart";
+import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductHomePage } from "@/service/product.api";

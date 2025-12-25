@@ -28,12 +28,10 @@ const handleGetDetailProduct = async (id: string) => {
 const handleAddProductToCart = async (
   quantity: number,
   productId: number,
-  user: any
+  userId: number
 ) => {
-  // has card
-
   const cart = await prisma.cart.findUnique({
-    where: { userId: user.id },
+    where: { userId: userId },
   });
 
   const product = await prisma.product.findUnique({
@@ -42,10 +40,10 @@ const handleAddProductToCart = async (
     },
   });
 
+  // has card
   if (cart) {
     // update
     // tăng số lượng sum của cart
-
     await prisma.cart.update({
       where: { id: cart.id },
       data: {
@@ -55,7 +53,7 @@ const handleAddProductToCart = async (
       },
     });
 
-    // Tìm xem có cart detaiil cũ không
+    // Tìm xem có cart detail cũ không
     const currentCartDetail = await prisma.cartDetail.findFirst({
       where: {
         productId: productId,
@@ -82,10 +80,11 @@ const handleAddProductToCart = async (
       },
     });
   } else {
+    // no cart
     await prisma.cart.create({
       data: {
         sum: quantity,
-        userId: user.id,
+        userId: userId,
         cartDetails: {
           create: [
             {
@@ -110,6 +109,12 @@ const handleGetCartByUserID = async (id: number) => {
 };
 
 const handleGetCartDetail = async (id: number) => {
+  const cart = await prisma.cart.findFirst({
+    where: {
+      userId: +id,
+    },
+  });
+  const cardId = cart.id;
   const cartDetails = await prisma.cartDetail.findMany({
     select: {
       quantity: true,
@@ -120,6 +125,9 @@ const handleGetCartDetail = async (id: number) => {
           image: true,
         },
       },
+    },
+    where: {
+      cartId: cardId,
     },
   });
 

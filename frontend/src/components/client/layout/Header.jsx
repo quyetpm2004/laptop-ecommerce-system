@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/useAuthStore";
 import {
@@ -20,17 +20,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCartStore } from "@/store/useCartStore";
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuthStore();
+  const { getCart, totalProductInCard, clearCart } = useCartStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    clearCart();
     navigate("/login");
     setIsMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getCart();
+    }
+  }, []);
 
   return (
     <header className="text-white shadow-sm bg-white sticky top-0 z-50">
@@ -96,7 +105,7 @@ const Header = () => {
               <Link to="/cart">
                 <ShoppingCart className="h-5 w-5 text-gray-600" />
                 <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">
-                  3
+                  {totalProductInCard}
                 </span>
               </Link>
             </Button>
