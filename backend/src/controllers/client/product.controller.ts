@@ -131,12 +131,12 @@ const getProductPageClient = async (req: Request, res: Response) => {
   let currentPage = page ? +page : 1;
   if (currentPage <= 0) currentPage = 1;
 
-  const totalPages = await handleCountTotalProductClientPage(6);
+  const totalProduct = await handleCountTotalProductClientPage(6);
   const products = await handleGetAllProducts(currentPage, 6);
 
   return res.render("client/product/filter.ejs", {
     products,
-    totalPages,
+    totalProduct,
     page: +currentPage,
   });
 };

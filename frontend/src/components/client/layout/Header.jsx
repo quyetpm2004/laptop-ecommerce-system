@@ -133,13 +133,22 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button
-                variant="outline"
-                className="rounded-full border-lime-600 text-lime-600 hover:bg-lime-50"
-                asChild
-              >
-                <Link to="/login">Đăng nhập</Link>
-              </Button>
+              <div className="space-x-4">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-lime-600 text-lime-600 hover:bg-lime-50"
+                  asChild
+                >
+                  <Link to="/login">Đăng nhập</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="rounded-full border-lime-600 text-lime-600 hover:bg-lime-50"
+                  asChild
+                >
+                  <Link to="/register">Đăng ký</Link>
+                </Button>
+              </div>
             )}
           </div>
 

@@ -7,8 +7,8 @@ import configPassportLocal from "./middleware/passport.local";
 import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
-import apiRoutes from "routes/api";
 import cors from "cors";
+import router from "routes/api";
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
@@ -63,10 +63,11 @@ app.use(express.static("public"));
 
 // config routes
 // webRouters(app)
-apiRoutes(app);
 
 // Seeding database
 initDatabase();
+
+app.use("/api", router);
 
 // app.use((req, res) => {
 //   res.render("status/404.ejs")

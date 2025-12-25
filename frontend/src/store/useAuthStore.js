@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { toast } from "sonner";
-import { registerApi, loginApi } from "@/service/auth";
+import { registerApi, loginApi } from "@/service/auth.api";
 
 export const useAuthStore = create(
   persist(

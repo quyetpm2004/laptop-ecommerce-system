@@ -3,13 +3,17 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 const checkValidJWT = (req: Request, res: Response, next: NextFunction) => {
   const path = req.path;
-  const whiteList = ["/login", "/register"];
+  const whiteList = ["/auth/login", "/auth/register"];
 
   const isWhiteList = whiteList.some((route) => route === path);
 
   if (isWhiteList) {
     next();
     return;
+  }
+
+  if (req.method === "GET" && req.originalUrl.startsWith("/api/products")) {
+    return next();
   }
 
   const token = req.headers["authorization"]?.split(" ")[1]; // format: Bearer <token>
