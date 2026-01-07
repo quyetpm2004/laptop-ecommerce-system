@@ -8,17 +8,40 @@ import {
   ChevronRight,
   Apple,
 } from "lucide-react";
+import { addProductToCard } from "@/service/cart.api";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const ProductDetail = ({ product }) => {
+  const { isAuthenticated } = useAuthStore();
+
+  const { getCart } = useCartStore();
+
   const [quantity, setQuantity] = useState(1);
 
   const categories = [
-    { name: "Apples", count: 3 },
-    { name: "Oranges", count: 5 },
-    { name: "Strawbery", count: 2 },
-    { name: "Banana", count: 8 },
-    { name: "Pumpkin", count: 5 },
+    { name: "DELL", count: 10 },
+    { name: "LENOVO", count: 12 },
+    { name: "ACER", count: 20 },
+    { name: "ASUS", count: 30 },
+    { name: "MACBOOK", count: 12 },
   ];
+
+  const handleAddProductToCart = async (productId, quantity) => {
+    if (!isAuthenticated) {
+      toast.warning("Bạn phải đăng nhập để thực hiện chức năng này!");
+      return;
+    }
+    const res = await addProductToCard(productId, quantity);
+    if (res.success) {
+      getCart();
+      toast.success("Đã thêm vào giỏ hàng");
+    } else {
+      toast.error("Có lỗi xảy ra");
+    }
+  };
+
   return (
     <>
       {product ? (
@@ -82,7 +105,10 @@ const ProductDetail = ({ product }) => {
                   </Button>
                 </div>
 
-                <Button className="rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-8 h-11 font-semiboldtransition-all shadow-sm">
+                <Button
+                  onClick={() => handleAddProductToCart(product.id, quantity)}
+                  className="rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-8 h-11 font-semiboldtransition-all shadow-sm"
+                >
                   <ShoppingBag className="w-4 h-4 mr-1" />
                   Add to cart
                 </Button>

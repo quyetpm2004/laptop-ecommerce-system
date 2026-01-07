@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
 const OrderInfo = ({ cartItems }) => {
@@ -10,6 +11,8 @@ const OrderInfo = ({ cartItems }) => {
   const formatCurrency = (value) => {
     return value.toLocaleString("vi-VN") + " đ";
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12">
@@ -40,7 +43,10 @@ const OrderInfo = ({ cartItems }) => {
         </div>
 
         <div className="pt-6">
-          <Button className="w-full sm:w-auto rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-10 py-6 font-bold uppercase tracking-wider transition-all shadow-sm">
+          <Button
+            onClick={() => navigate("/checkout")}
+            className="w-full sm:w-auto rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-10 py-6 font-bold uppercase tracking-wider transition-all shadow-sm"
+          >
             Xác nhận thanh toán
           </Button>
         </div>

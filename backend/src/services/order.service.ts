@@ -1,56 +1,60 @@
-import { prisma } from "config/client"
-import { TOTAL_ITEM_PER_PAGE } from "config/constant"
+import { prisma } from "config/client";
+import { ITEM_PER_PAGE } from "src/utils/constant";
 
 const handleGetAllOrders = async (page: number) => {
-    const pageSize = TOTAL_ITEM_PER_PAGE
-    const skip = (page - 1) * pageSize
-    const orders = await prisma.order.findMany({
-        skip: skip,
-        take: pageSize,
-        include: {
-            user: true
-        }
-    })
-    return orders ?? [] 
-}
-
+  const pageSize = ITEM_PER_PAGE;
+  const skip = (page - 1) * pageSize;
+  const orders = await prisma.order.findMany({
+    skip: skip,
+    take: pageSize,
+    include: {
+      user: true,
+    },
+  });
+  return orders ?? [];
+};
 
 const handleCountTotalOrderPage = async () => {
-    const pageSize = TOTAL_ITEM_PER_PAGE ;
-    const totalOrder = await prisma.order.count()
+  const pageSize = ITEM_PER_PAGE;
+  const totalOrder = await prisma.order.count();
 
-    const totalPages = Math.ceil(totalOrder / pageSize)
+  const totalPages = Math.ceil(totalOrder / pageSize);
 
-    return totalPages
-}
+  return totalPages;
+};
 
 const handleGetDetailOrder = async (orderId: number) => {
-    const orderDetails = prisma.orderDetail.findMany({
-        where: {
-            orderId
-        },
-        include: {
-            product: true
-        }
-    })
-    return orderDetails ?? []
-}
+  const orderDetails = prisma.orderDetail.findMany({
+    where: {
+      orderId,
+    },
+    include: {
+      product: true,
+    },
+  });
+  return orderDetails ?? [];
+};
 
 const handleGetOrderHistory = async (userId: number) => {
-    const orders = prisma.order.findMany({
-        where: {
-            userId
-        },
+  const orders = prisma.order.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      orderDetails: {
         include: {
-            orderDetails: {
-                include: {
-                    product: true 
-                }
-            }   
-        }
-    })
+          product: true,
+        },
+      },
+    },
+  });
 
-    return orders ?? []
-}
- 
-export { handleCountTotalOrderPage, handleGetAllOrders, handleGetDetailOrder, handleGetOrderHistory }
+  return orders ?? [];
+};
+
+export {
+  handleCountTotalOrderPage,
+  handleGetAllOrders,
+  handleGetDetailOrder,
+  handleGetOrderHistory,
+};

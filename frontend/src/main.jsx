@@ -11,42 +11,43 @@ import DetailPage from "./page/client/DetailPage";
 import CartPage from "./page/client/CartPage";
 import CheckoutPage from "./page/client/CheckoutPage";
 import { Toaster } from "@/components/ui/sonner";
+import ThanksPage from "./page/client/ThanksPage";
+import ProtectedAuthPage from "./page/client/ProtectedAuthPage";
+import AdminLayout from "./components/admin/layout/Layout";
+import Dashboard from "./page/admin/Dashboard";
+import User from "./page/admin/User";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: "product",
-        element: <ProductPage />,
-      },
-      {
-        path: "product/:productId",
-        element: <DetailPage />,
-      },
-      {
-        path: "cart",
-        element: <CartPage />,
-      },
-      {
-        path: "checkout",
-        element: <CheckoutPage />,
-      },
+      { index: true, element: <HomePage /> },
+      { path: "product", element: <ProductPage /> },
+      { path: "product/:productId", element: <DetailPage /> },
     ],
   },
+
   {
-    path: "/login",
-    element: <LoginPage />,
+    element: <ProtectedAuthPage />,
+    children: [
+      { path: "/cart", element: <CartPage /> },
+      { path: "/checkout", element: <CheckoutPage /> },
+      { path: "/thanks", element: <ThanksPage /> },
+    ],
   },
+
   {
-    path: "/register",
-    element: <RegisterPage />,
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "user", element: <User /> },
+    ],
   },
+
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

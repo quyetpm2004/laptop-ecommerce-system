@@ -5,10 +5,16 @@ import { Link } from "react-router-dom";
 import { addProductToCard } from "@/service/cart.api";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const ProductCard = ({ product }) => {
+  const { isAuthenticated } = useAuthStore();
   const { getCart } = useCartStore();
   const handleAddProductToCard = async () => {
+    if (!isAuthenticated) {
+      toast.warning("Bạn phải đăng nhập để thực hiện chức năng này!");
+      return;
+    }
     const res = await addProductToCard(product.id, 1);
     if (res.success) {
       toast.success("Đã thêm vào giỏ hàng!");

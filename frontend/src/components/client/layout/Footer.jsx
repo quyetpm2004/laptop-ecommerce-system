@@ -15,7 +15,7 @@ const Footer = () => {
         <Separator className="bg-gray-600 mb-8" />
 
         {/* Các cột thông tin */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Cột 1: Slogan */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-3">

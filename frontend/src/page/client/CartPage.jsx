@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import CardDetail from "@/components/client/CartDetail";
 import OrderInfo from "@/components/client/OrderInfo";
 import { getDetailCart } from "@/service/cart.api";
+import { useCartStore } from "@/store/useCartStore";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const { totalProductInCard } = useCartStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +17,7 @@ const CartPage = () => {
         setCartItems(res.data);
       }
     };
-    fetchData();
+    if (totalProductInCard > 0) fetchData();
   }, []);
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -33,7 +35,7 @@ const CartPage = () => {
 
       {cartItems.length > 0 ? (
         <>
-          <CardDetail cartItems={cartItems} />
+          <CardDetail cartItems={cartItems} setCartItems={setCartItems} />
           <OrderInfo cartItems={cartItems} />
         </>
       ) : (

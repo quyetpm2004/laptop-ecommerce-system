@@ -60,8 +60,8 @@ const HeroSection = () => {
             </CarouselContent>
 
             {/* Nút điều hướng */}
-            <CarouselPrevious className="-left-12 bg-lime-500 hover:bg-lime-600 text-white" />
-            <CarouselNext className="-right-12 bg-lime-500 hover:bg-lime-600 text-white" />
+            <CarouselPrevious className="-left-12 bg-lime-500 hover:bg-lime-600 text-white hidden md:flex" />
+            <CarouselNext className="-right-12 bg-lime-500 hover:bg-lime-600 text-white hidden md:flex" />
           </Carousel>
         </div>
       </div>

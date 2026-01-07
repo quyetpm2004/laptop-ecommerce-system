@@ -117,6 +117,7 @@ const handleGetCartDetail = async (id: number) => {
   const cardId = cart.id;
   const cartDetails = await prisma.cartDetail.findMany({
     select: {
+      id: true,
       quantity: true,
       price: true,
       product: {
@@ -132,6 +133,7 @@ const handleGetCartDetail = async (id: number) => {
   });
 
   const result = cartDetails.map((item) => ({
+    id: item.id,
     name: item.product.name,
     image: item.product.image,
     price: item.price,
@@ -164,48 +166,49 @@ const handleGetProductInCart = async (id: number) => {
   return [];
 };
 
-const handleDeleteCartDetail = async (
-  id: number,
-  sumCart: number,
-  userId: number
-) => {
-  const cartDetail = await prisma.cartDetail.findUnique({
+const handleDeleteCartDetail = async (cartDetailId: number, userId: number) => {
+  const cartDetail = await prisma.cartDetail.findFirst({
     where: {
-      id,
+      id: cartDetailId,
+      cart: { userId },
+    },
+    include: {
+      cart: true,
     },
   });
+
+  if (!cartDetail) {
+    throw new Error("Không tìm thấy cart item");
+  }
 
   const quantity = cartDetail.quantity;
+  const cartSum = cartDetail.cart.sum;
 
-  await prisma.cartDetail.delete({
-    where: {
-      id: id,
-    },
-  });
+  await prisma.$transaction(async (tx) => {
+    await tx.cartDetail.delete({
+      where: { id: cartDetailId },
+    });
 
-  if (sumCart > 1) {
-    await prisma.cart.update({
-      data: {
-        sum: {
-          decrement: quantity,
+    if (cartSum === quantity) {
+      await tx.cart.delete({
+        where: { id: cartDetail.cartId },
+      });
+    } else {
+      await tx.cart.update({
+        where: { id: cartDetail.cartId },
+        data: {
+          sum: {
+            decrement: quantity,
+          },
         },
-      },
-      where: {
-        userId: userId,
-      },
-    });
-  } else {
-    await prisma.cart.delete({
-      where: {
-        userId: userId,
-      },
-    });
-  }
+      });
+    }
+  });
 };
 
 const updateCartDetailBeforeCheckout = async (
   data: { id: string; quantity: string }[],
-  userId
+  userId: number
 ) => {
   var newQuantity = 0;
 
@@ -284,7 +287,7 @@ const handlePlaceOrder = async (
         },
       });
 
-      // check product
+      // check quantity product, update sold product
       for (var i = 0; i < cart.cartDetails.length; i++) {
         const productId = cart.cartDetails[i].productId;
         const product = await tx.product.findUnique({
@@ -313,6 +316,53 @@ const handlePlaceOrder = async (
   });
 };
 
+const handleUpdateCardDetail = async (
+  userId: number,
+  cartDetailId: number,
+  delta: number
+) => {
+  if (![1, -1].includes(delta)) {
+    throw new Error("Delta không hợp lệ");
+  }
+
+  const cart = await prisma.cart.findFirst({
+    where: {
+      userId,
+    },
+  });
+
+  const cartDetail = await prisma.cartDetail.findFirst({
+    where: {
+      id: cartDetailId,
+      cartId: cart.id,
+    },
+  });
+
+  if (!cartDetail) {
+    throw new Error("Không tìm thấy cart item");
+  }
+
+  if (cartDetail.quantity + delta < 1) {
+    throw new Error("Quantity phải >= 1");
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.cartDetail.update({
+      where: { id: cartDetailId },
+      data: {
+        quantity: { increment: delta },
+      },
+    });
+
+    await tx.cart.update({
+      where: { userId },
+      data: {
+        sum: { increment: delta },
+      },
+    });
+  });
+};
+
 export {
   handleGetAllProducts,
   handleGetDetailProduct,
@@ -324,4 +374,5 @@ export {
   updateCartDetailBeforeCheckout,
   handlePlaceOrder,
   handleCountTotalProductClientPage,
+  handleUpdateCardDetail,
 };

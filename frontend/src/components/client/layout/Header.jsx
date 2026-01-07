@@ -126,14 +126,6 @@ const Header = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 mt-2">
                   <DropdownMenuItem
-                    onClick={() => navigate("/profile")}
-                    className="cursor-pointer"
-                  >
-                    <UserCircle className="mr-2 h-4 w-4" /> Profile
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
                     onClick={handleLogout}
                     className="text-red-600 cursor-pointer focus:bg-red-50 focus:text-red-600"
                   >
@@ -179,7 +171,7 @@ const Header = () => {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 top-[70px] z-40 bg-white md:hidden flex flex-col p-6 animate-in slide-in-from-right duration-300">
+        <div className="fixed inset-0 top-[70px] z-40 bg-white text-black md:hidden flex flex-col p-6 animate-in slide-in-from-right duration-300">
           <nav className="flex flex-col space-y-6 text-lg font-medium">
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
               Trang chủ
@@ -190,25 +182,11 @@ const Header = () => {
             <hr />
             {isAuthenticated ? (
               <>
-                <Link
-                  to="/profile"
-                  className="flex items-center"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <UserCircle className="mr-3" /> Hồ sơ cá nhân
-                </Link>
-                <Link
-                  to="/cart"
-                  className="flex items-center"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <ShoppingCart className="mr-3" /> Giỏ hàng
-                </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center text-red-500 text-left pt-4"
                 >
-                  <LogOut className="mr-3" /> Đăng xuất
+                  Đăng xuất
                 </button>
               </>
             ) : (

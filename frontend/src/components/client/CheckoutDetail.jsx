@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -12,18 +12,16 @@ import {
 } from "@/components/ui/table";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-const CheckoutDetail = () => {
-  const checkoutItems = [
-    {
-      id: 1,
-      name: "Laptop Asus TUF Gaming",
-      price: 17490000,
-      quantity: 1,
-      image: "/image/test/1711078452562-dell-01.png",
-    },
-  ];
+import { placeOrder } from "@/service/order.api";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
+const CheckoutDetail = ({ cartItems }) => {
+  const { getCart } = useCartStore();
+  const [receiverName, setReceiverName] = useState("");
+  const [receiverAddress, setReceiverAddress] = useState("");
+  const [receiverPhone, setReceiverPhone] = useState("");
 
-  const subtotal = checkoutItems.reduce(
+  const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
@@ -33,6 +31,38 @@ const CheckoutDetail = () => {
   const formatCurrency = (value) => {
     return value.toLocaleString("vi-VN") + " đ";
   };
+
+  const handlePlaceOrder = async () => {
+    if (!receiverName || !receiverAddress || !receiverPhone) {
+      toast.error("Vui lòng nhập đầy đủ thông tin người nhận");
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      toast.error("Giỏ hàng đang trống");
+      return;
+    }
+
+    try {
+      const res = await placeOrder(
+        receiverName,
+        receiverAddress,
+        receiverPhone,
+        total
+      );
+
+      if (res.success) {
+        getCart();
+        toast.success("Đặt hàng thành công");
+      } else {
+        toast.error(res.message || "Có lỗi xảy ra");
+      }
+    } catch (error) {
+      console.log("Có lỗi xảy ra", error);
+      toast.error("Không thể đặt hàng, vui lòng thử lại");
+    }
+  };
+
   return (
     <>
       {/* 1. Bảng tóm tắt sản phẩm */}
@@ -48,12 +78,14 @@ const CheckoutDetail = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {checkoutItems.map((item) => (
+            {cartItems.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>
                   <div className="w-16 h-16 rounded-full overflow-hidden border">
                     <img
-                      src={item.image}
+                      src={`${
+                        import.meta.env.VITE_BASE_URL_BACKEND
+                      }/images/product/${item.image}`}
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />
@@ -92,7 +124,12 @@ const CheckoutDetail = () => {
               <Label htmlFor="name" className="text-gray-500 font-normal">
                 Tên người nhận
               </Label>
-              <Input id="name" className="rounded-full border-gray-300 h-11" />
+              <Input
+                id="name"
+                value={receiverName}
+                onChange={(e) => setReceiverName(e.target.value)}
+                className="rounded-full border-gray-300 h-11"
+              />
             </div>
 
             <div className="space-y-2">
@@ -101,6 +138,8 @@ const CheckoutDetail = () => {
               </Label>
               <Input
                 id="address"
+                value={receiverAddress}
+                onChange={(e) => setReceiverAddress(e.target.value)}
                 className="rounded-full border-gray-300 h-11"
               />
             </div>
@@ -109,7 +148,12 @@ const CheckoutDetail = () => {
               <Label htmlFor="phone" className="text-gray-500 font-normal">
                 Số điện thoại
               </Label>
-              <Input id="phone" className="rounded-full border-gray-300 h-11" />
+              <Input
+                id="phone"
+                value={receiverPhone}
+                onChange={(e) => setReceiverPhone(e.target.value)}
+                className="rounded-full border-gray-300 h-11"
+              />
             </div>
           </form>
 
@@ -153,7 +197,10 @@ const CheckoutDetail = () => {
           </div>
 
           <div className="pt-4">
-            <Button className="w-full sm:w-auto rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-10 py-6 font-semibold uppercase tracking-wider transition-all shadow-sm">
+            <Button
+              onClick={handlePlaceOrder}
+              className="w-full sm:w-auto rounded-full bg-white border-2 border-yellow-400 text-lime-600 hover:bg-lime-500 hover:text-white px-10 py-6 font-semibold uppercase tracking-wider transition-all shadow-sm"
+            >
               Xác nhận thanh toán
             </Button>
           </div>

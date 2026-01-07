@@ -4,6 +4,11 @@ import {
   handleGetAllProducts,
   handleGetDetailProduct,
 } from "services/item.service";
+import {
+  handleCreateProduct,
+  handleDeleteProduct,
+  handleUpdateProduct,
+} from "services/product.service";
 import { ITEM_PER_PAGE } from "src/utils/constant";
 
 const getProductHomePage = async (req: Request, res: Response) => {
@@ -65,4 +70,87 @@ const getProductDetail = async (req: Request, res: Response) => {
   }
 };
 
-export { getProductHomePage, getProductByFilter, getProductDetail };
+const createProduct = async (req: Request, res: Response) => {
+  try {
+    const { name, price, detailDesc, shortDesc, quantity, factory, target } =
+      req.body;
+    const image = req.file?.filename || "";
+    const product = await handleCreateProduct(
+      name,
+      price,
+      detailDesc,
+      shortDesc,
+      quantity,
+      factory,
+      target,
+      image
+    );
+    res.status(201).json({
+      data: product,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Co loi xay ra", error.message);
+    res.status(500).json({
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const image = req.file?.filename || "";
+
+    const { name, price, detailDes, shortDesc, quantity, factory, target } =
+      req.body;
+    const product = await handleUpdateProduct(
+      name,
+      price,
+      detailDes,
+      shortDesc,
+      quantity,
+      factory,
+      target,
+      image,
+      id
+    );
+    res.status(200).json({
+      data: product,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Co loi xay ra", error.message);
+    res.status(500).json({
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await handleDeleteProduct(id);
+    res.status(200).json({
+      success: true,
+      message: "Xóa sản phẩm thành công",
+    });
+  } catch (error) {
+    console.error("Co loi xay ra", error.message);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export {
+  getProductHomePage,
+  getProductByFilter,
+  getProductDetail,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

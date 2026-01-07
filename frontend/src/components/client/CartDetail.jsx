@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,19 +10,37 @@ import {
 } from "@/components/ui/table";
 import { Plus, Minus, X } from "lucide-react";
 import { Link } from "react-router-dom";
-const CardDetail = ({ cartItems }) => {
-  // const updateQuantity = (id, delta) => {
-  //   // setCartItems((prev) =>
-  //   //   prev.map((item) =>
-  //   //     item.id === id
-  //   //       ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-  //   //       : item
-  //   //   )
-  //   // );
-  // };
+import { deleteCartDetail, updateCartDetail } from "@/service/cart.api";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
+const CartDetail = ({ cartItems, setCartItems }) => {
+  const { getCart } = useCartStore();
 
-  const removeItem = (id) => {
+  const updateQuantity = async (cartDetailId, delta) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === cartDetailId
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+
+    const res = await updateCartDetail(cartDetailId, delta);
+    if (res.success) {
+      getCart();
+    } else {
+      toast.error("Có lỗi xảy ra");
+    }
+  };
+
+  const removeItem = async (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
+    const res = await deleteCartDetail(id);
+    if (res.success) {
+      getCart();
+    } else {
+      toast.error("Có lỗi xảy ra");
+    }
   };
 
   const formatCurrency = (value) => {
@@ -72,7 +90,7 @@ const CardDetail = ({ cartItems }) => {
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 rounded-full bg-gray-100"
-                    // onClick={() => updateQuantity(item.id, -1)}
+                    onClick={() => updateQuantity(item.id, -1)}
                   >
                     <Minus className="h-3 w-3" />
                   </Button>
@@ -110,4 +128,4 @@ const CardDetail = ({ cartItems }) => {
   );
 };
 
-export default CardDetail;
+export default CartDetail;

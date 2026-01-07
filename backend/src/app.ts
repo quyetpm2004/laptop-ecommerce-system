@@ -1,12 +1,6 @@
 /// <reference path="./types/index.d.ts" />
 import "dotenv/config";
-import webRouters from "./routes/web";
 import initDatabase from "./config/seed";
-import passport from "passport";
-import configPassportLocal from "./middleware/passport.local";
-import session from "express-session";
-import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { PrismaClient } from "@prisma/client";
 import cors from "cors";
 import router from "routes/api";
 const express = require("express");

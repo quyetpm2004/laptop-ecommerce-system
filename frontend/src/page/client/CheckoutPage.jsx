@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import CheckoutDetail from "@/components/client/CheckoutDetail";
 import { Link } from "react-router-dom";
+import { useCartStore } from "@/store/useCartStore";
+import { getDetailCart } from "@/service/cart.api";
 
 const CheckoutPage = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const { totalProductInCard } = useCartStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getDetailCart();
+      if (res.data) {
+        setCartItems(res.data);
+      }
+    };
+    if (totalProductInCard > 0) fetchData();
+  }, []);
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
@@ -18,8 +32,15 @@ const CheckoutPage = () => {
         <span>Thanh Toán Giỏ Hàng</span>
       </nav>
 
-      {/* 1. Bảng tóm tắt sản phẩm */}
-      <CheckoutDetail />
+      {totalProductInCard > 0 ? (
+        <CheckoutDetail cartItems={cartItems} />
+      ) : (
+        <>
+          <main>
+            Vui lòng thêm sản phẩm vào giỏ hàng trước khi thực hiện thao tác này
+          </main>
+        </>
+      )}
     </div>
   );
 };
