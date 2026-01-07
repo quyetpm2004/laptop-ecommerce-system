@@ -16,6 +16,7 @@ import ProtectedAuthPage from "./page/client/ProtectedAuthPage";
 import AdminLayout from "./components/admin/layout/Layout";
 import Dashboard from "./page/admin/Dashboard";
 import User from "./page/admin/User";
+import Product from "./page/admin/Product";
 
 const router = createBrowserRouter([
   {
@@ -41,8 +42,9 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <AdminLayout />,
     children: [
-      { path: "dashboard", element: <Dashboard /> },
+      { index: true, element: <Dashboard /> },
       { path: "user", element: <User /> },
+      { path: "product", element: <Product /> },
     ],
   },
 

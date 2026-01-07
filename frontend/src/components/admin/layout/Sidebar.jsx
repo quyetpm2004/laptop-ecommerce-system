@@ -24,7 +24,7 @@ import {
 const items = [
   {
     title: "Dashboard",
-    url: "/admin/dashboard",
+    url: "/admin",
     icon: Home,
   },
   {

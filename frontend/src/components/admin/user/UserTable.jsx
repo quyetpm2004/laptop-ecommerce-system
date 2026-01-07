@@ -59,19 +59,21 @@ const UserTable = ({ users, onEdit, onDelete }) => {
                   size="icon"
                   onClick={() => setSelectedUser(user)}
                 >
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-4 h-4 text-blue-500" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onEdit(user)}
                 >
-                  <Edit className="w-4 h-4" />
+                  <Edit className="w-4 h-4 text-amber-500" />
                 </Button>
 
                 <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Trash2 className="w-4 h-4" />
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Trash2 className="w-4 h-4 text-red-500" />
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -103,9 +105,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>User Details</SheetTitle>
-            <SheetDescription>
-              Thông tin chi tiết của người dùng.
-            </SheetDescription>
+            <SheetDescription>Detail information of user.</SheetDescription>
           </SheetHeader>
           {selectedUser && (
             <div className="py-6 px-4 space-y-4">

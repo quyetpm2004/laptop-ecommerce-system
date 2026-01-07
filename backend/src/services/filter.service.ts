@@ -1,4 +1,5 @@
 import { prisma } from "config/client";
+import { ITEM_PER_PAGE } from "src/utils/constant";
 
 const userFilter = async (username: string) => {
   const users = await prisma.user.findMany({
@@ -56,6 +57,9 @@ const handleGetProductWithFilter = async (
   price: string,
   sort: string
 ) => {
+  if (!pageSize) {
+    pageSize = ITEM_PER_PAGE;
+  }
   // build where query
   let whereClause: any = {};
   if (factory) {

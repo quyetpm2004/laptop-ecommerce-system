@@ -6,8 +6,8 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarTrigger />
       <main className="mx-auto w-full">
+        <SidebarTrigger />
         <Outlet />
       </main>
     </SidebarProvider>

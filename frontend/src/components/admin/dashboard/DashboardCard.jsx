@@ -30,8 +30,7 @@ export function DashboardCard() {
         <Card
           key={item.title}
           className={cn(
-            "border-none text-white overflow-hidden shadow-md pb-0",
-            item.color
+            "border-none overflow-hidden shadow-md pb-0 bg-[#f8f8f8]"
           )}
         >
           <CardContent>
@@ -42,8 +41,7 @@ export function DashboardCard() {
 
           <CardFooter
             className={cn(
-              "flex justify-between items-center py-3 px-6 cursor-pointer hover:opacity-90 transition-opacity",
-              item.footerColor
+              "flex justify-between items-center pb-3 px-6 cursor-pointer hover:opacity-90 transition-opacity"
             )}
           >
             <span className="text-sm font-light underline underline-offset-4">

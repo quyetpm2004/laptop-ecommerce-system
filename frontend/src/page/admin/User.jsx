@@ -9,9 +9,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import UserTable from "@/components/admin/UserTable";
-import CreateUserModal from "@/components/admin/CreateUserModal";
-import UpdateUserModal from "@/components/admin/UpdateUserModal";
+import UserTable from "@/components/admin/user/UserTable";
+import CreateUserModal from "@/components/admin/user/CreateUserModal";
+import UpdateUserModal from "@/components/admin/user/UpdateUserModal";
 import { Input } from "@/components/ui/input";
 import {
   getUser,
@@ -19,6 +19,7 @@ import {
   updateUser,
   deleteUser,
 } from "@/service/user.api";
+import { toast } from "sonner";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -62,6 +63,7 @@ const User = () => {
   const handleDelete = async (id) => {
     try {
       await deleteUser(id);
+      toast.success("Deleted successfully");
       fetchUsers();
     } catch (err) {
       // Xử lý lỗi
@@ -74,9 +76,12 @@ const User = () => {
     try {
       await createUser(data);
       setIsCreateOpen(false);
+      toast.success("Created successfully");
+
       fetchUsers();
     } catch (err) {
       // Xử lý lỗi
+      toast.error("Create failed");
       console.error(err);
     }
   };
@@ -86,10 +91,13 @@ const User = () => {
     try {
       await updateUser(updatedData, editingUser?.id);
       setIsUpdateOpen(false);
+      toast.success("Updated successfully");
+
       setEditingUser(null);
       fetchUsers();
     } catch (err) {
       // Xử lý lỗi
+      toast.error("Updated failed");
       console.error(err);
     }
   };
@@ -110,16 +118,16 @@ const User = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="font-semibold text-3xl mb-4">Quản lý người dùng</h2>
+        <h2 className="font-semibold text-3xl mb-4">Manage Users</h2>
         <Button onClick={() => setIsCreateOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> Thêm người dùng
+          <Plus className="mr-2 h-4 w-4" /> Create a new user
         </Button>
       </div>
 
       <div className="flex items-center max-w-sm relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Tìm kiếm theo username..."
+          placeholder="Search by username..."
           className="pl-10"
           value={searchName}
           onChange={handleSearchChange}
