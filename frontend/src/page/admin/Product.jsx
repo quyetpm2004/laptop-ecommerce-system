@@ -19,6 +19,14 @@ import {
   deleteProduct,
 } from "@/service/product.api";
 import { toast } from "sonner";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -110,6 +118,18 @@ const Product = () => {
           <Plus className="mr-2 h-4 w-4" /> Create a new product
         </Button>
       </div>
+
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Product</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <div className="min-h-[400px]">
         <ProductTable

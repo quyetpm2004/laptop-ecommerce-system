@@ -25,7 +25,7 @@ export const useAuthStore = create(
 
           toast.success("Đăng nhập thành công!", { id: "auth" });
 
-          return true;
+          return res;
         } catch (error) {
           console.error("Login error:", error);
           toast.error("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.", {

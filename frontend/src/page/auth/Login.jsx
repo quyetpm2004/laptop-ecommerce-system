@@ -25,8 +25,12 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       const result = await login(email, password);
-      if (result) {
-        navigate("/");
+      if (result.success) {
+        if (result.data.user.role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       } else {
         return;
       }

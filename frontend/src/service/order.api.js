@@ -14,4 +14,16 @@ const placeOrder = async (
   });
 };
 
-export { placeOrder };
+const getOrders = async (page) => {
+  return await axios.get("/orders", {
+    params: {
+      page,
+    },
+  });
+};
+
+const getOrderDetail = async (orderId) => {
+  return await axios.get(`/orders/${orderId}`);
+};
+
+export { placeOrder, getOrders, getOrderDetail };

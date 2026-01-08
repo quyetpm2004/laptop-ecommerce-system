@@ -13,7 +13,7 @@ import { ITEM_PER_PAGE } from "src/utils/constant";
 
 const getProductHomePage = async (req: Request, res: Response) => {
   try {
-    const products = await handleGetAllProducts(1, ITEM_PER_PAGE);
+    const products = await handleGetAllProducts(1, 8);
     res.status(200).json({
       data: products,
       success: true,
