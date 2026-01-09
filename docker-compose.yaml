@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: laptopshop-db
+    restart: always
+    environment:
+      environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: laptopshop
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: laptopshop-backend
+    ports:
+      - "3000:8000"
+    environment:
+      - PORT=8000
+      - DB_PORT=3306
+      - DB_HOST=db
+      - DATABASE_URL=mysql://root:123456@db:3306/laptopshop
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: laptopshop-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
