@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { handleGetProductWithFilter } from "services/filter.service";
+import { handleGetProductWithFilter } from "@/services/filter.service";
 import {
   handleGetAllProducts,
   handleGetDetailProduct,
-} from "services/item.service";
+} from "@/services/item.service";
 import {
   handleCreateProduct,
   handleDeleteProduct,
   handleUpdateProduct,
-} from "services/product.service";
-import { ITEM_PER_PAGE } from "src/utils/constant";
+} from "@/services/product.service";
 
 const getProductHomePage = async (req: Request, res: Response) => {
   try {
@@ -37,7 +36,7 @@ const getProductByFilter = async (req: Request, res: Response) => {
       factory as string | undefined,
       target as string | undefined,
       price as string | undefined,
-      sort as string | undefined
+      sort as string | undefined,
     );
     res.status(200).json({
       data: data.products,
@@ -83,7 +82,7 @@ const createProduct = async (req: Request, res: Response) => {
       quantity,
       factory,
       target,
-      image
+      image,
     );
     res.status(201).json({
       data: product,
@@ -114,7 +113,7 @@ const updateProduct = async (req: Request, res: Response) => {
       factory,
       target,
       image,
-      id
+      id,
     );
     res.status(200).json({
       data: product,

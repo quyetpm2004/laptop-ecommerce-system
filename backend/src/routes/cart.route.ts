@@ -5,7 +5,7 @@ import {
   getCartDetailByUser,
   updateCartBeforeCheckout,
   updateCartItem,
-} from "controllers/client/api/cart.controller";
+} from "@/controllers/client/api/cart.controller";
 import express from "express";
 
 const cartRoute = express.Router();

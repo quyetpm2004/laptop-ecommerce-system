@@ -6,7 +6,7 @@ import {
   handleGetCartDetail,
   handleUpdateCardDetail,
   updateCartDetailBeforeCheckout,
-} from "services/item.service";
+} from "@/services/item.service";
 
 const addProductToCart = async (req: Request, res: Response) => {
   try {
@@ -16,7 +16,7 @@ const addProductToCart = async (req: Request, res: Response) => {
     const response = await handleAddProductToCart(
       +quantity,
       +productId,
-      userId
+      userId,
     );
     res.status(200).json({
       data: response,

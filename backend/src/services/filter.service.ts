@@ -1,5 +1,5 @@
-import { prisma } from "config/client";
-import { ITEM_PER_PAGE } from "src/utils/constant";
+import { prisma } from "@/config/client";
+import { ITEM_PER_PAGE } from "@/utils/constant";
 
 const userFilter = async (username: string) => {
   const users = await prisma.user.findMany({
@@ -55,7 +55,7 @@ const handleGetProductWithFilter = async (
   factory: string,
   target: string,
   price: string,
-  sort: string
+  sort: string,
 ) => {
   if (!pageSize) {
     pageSize = ITEM_PER_PAGE;

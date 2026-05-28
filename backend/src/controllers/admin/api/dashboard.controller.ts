@@ -1,5 +1,5 @@
+import { handleGetInfo } from "@/services/dashboard.service";
 import { Request, Response } from "express";
-import { handleGetInfo } from "services/dashboard.service";
 
 const getDashboard = async (req: Request, res: Response) => {
   try {

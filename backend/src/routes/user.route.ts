@@ -1,11 +1,11 @@
+import fileUploadMiddleware from "@/middleware/fileUploadMiddleware";
 import {
   createNewUser,
   getAllUser,
   updateUser,
   deleteUser,
-} from "controllers/admin/api/user.controller";
+} from "@/controllers/admin/api/user.controller";
 import express from "express";
-import fileUploadMiddleware from "src/middleware/fileUploadMiddleware";
 
 const userRoute = express.Router();
 

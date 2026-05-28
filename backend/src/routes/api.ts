@@ -1,11 +1,11 @@
 import express, { Express } from "express";
-import { checkValidJWT } from "src/middleware/jwt.middleware";
 import authRoute from "./auth.route";
 import productRoute from "./product.route";
 import cartRoute from "./cart.route";
 import orderRoute from "./order.route";
 import userRoute from "./user.route";
 import dashboardRoute from "./dashboard.route";
+import { checkValidJWT } from "@/middleware/jwt.middleware";
 
 const router = express.Router();
 

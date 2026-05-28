@@ -7,15 +7,11 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": "src",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "types": ["node"],
     "lib": ["ES2020"],
     "paths": {
-      "config/*": ["./src/config/*"],
-      "controllers/*": ["./src/controllers/*"],
-      "models/*": ["./src/models/*"],
-      "services/*": ["./src/services/*"],
-      "routes/*": ["./src/routes/*"]
+      "@/*": ["*"]
     }
   }
 }

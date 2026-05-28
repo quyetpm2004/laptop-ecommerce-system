@@ -1,5 +1,5 @@
-import { prisma } from "config/client";
-import { ACCOUNT_TYPE } from "config/constant";
+import { prisma } from "@/config/client";
+import { ACCOUNT_TYPE } from "@/config/constant";
 import { comparePassword, hashPassword } from "./user.service";
 
 const handleCheckEmailExist = async (email: string) => {
@@ -23,7 +23,7 @@ const handleCreateAccount = async (
   email: string,
   password: string,
   address: string,
-  phone: string
+  phone: string,
 ) => {
   if (password.length < 6) {
     throw new Error("Password cần có ít nhất 6 kí tự");
@@ -66,7 +66,7 @@ const handleCreateAccount = async (
 const handleLogin = async (
   username: string,
   password: string,
-  callback: any
+  callback: any,
 ) => {
   const user = await prisma.user.findUnique({
     where: { username },

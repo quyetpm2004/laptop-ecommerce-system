@@ -5,9 +5,9 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-} from "controllers/client/api/product.controller";
+} from "@/controllers/client/api/product.controller";
+import fileUploadMiddleware from "@/middleware/fileUploadMiddleware";
 import express from "express";
-import fileUploadMiddleware from "src/middleware/fileUploadMiddleware";
 
 const productRoute = express.Router();
 
@@ -18,12 +18,12 @@ productRoute.get("/:id", getProductDetail);
 productRoute.post(
   "/",
   fileUploadMiddleware("image", "images/product"),
-  createProduct
+  createProduct,
 );
 productRoute.put(
   "/:id",
   fileUploadMiddleware("image", "images/product"),
-  updateProduct
+  updateProduct,
 );
 productRoute.delete("/:id", deleteProduct);
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { handlePlaceOrder } from "services/item.service";
-import { handleGetOrderHistory } from "services/order.service";
+import { handlePlaceOrder } from "@/services/item.service";
+import { handleGetOrderHistory } from "@/services/order.service";
 
 const placeOrder = async (req: Request, res: Response) => {
   try {
@@ -13,7 +13,7 @@ const placeOrder = async (req: Request, res: Response) => {
       receiverName,
       receiverAddress,
       receiverPhone,
-      +totalPrice
+      +totalPrice,
     );
     res.status(200).json({
       data: response,

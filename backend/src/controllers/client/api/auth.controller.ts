@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { handleUserLogin } from "services/api.service";
-import { handleCreateAccount } from "services/auth.service";
+import { handleUserLogin } from "@/services/api.service";
+import { handleCreateAccount } from "@/services/auth.service";
 
 const loginAPI = async (req: Request, res: Response) => {
   const { email, password } = req.body;

@@ -3,7 +3,7 @@ import {
   handleCountTotalOrderPage,
   handleGetAllOrders,
   handleGetDetailOrder,
-} from "services/order.service";
+} from "@/services/order.service";
 
 const getDetailOrder = async (req: Request, res: Response) => {
   // get order

@@ -1,4 +1,4 @@
-import { prisma } from "config/client";
+import { prisma } from "@/config/client";
 import { comparePassword } from "./user.service";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
@@ -19,7 +19,7 @@ const handleUpdateUserById = async (
   id: number,
   fullName: string,
   phone: string,
-  address: string
+  address: string,
 ) => {
   await prisma.user.update({
     where: { id: id },

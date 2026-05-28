@@ -5,7 +5,7 @@ import {
   handleDeleteUser,
   handleGetAllUser,
   handleUpdateUser,
-} from "services/user.service";
+} from "@/services/user.service";
 
 const getAllUser = async (req: Request, res: Response) => {
   const { page, name } = req.query;

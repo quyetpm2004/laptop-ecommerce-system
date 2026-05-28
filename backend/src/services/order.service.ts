@@ -1,5 +1,5 @@
-import { prisma } from "config/client";
-import { ITEM_PER_PAGE } from "src/utils/constant";
+import { prisma } from "@/config/client";
+import { ITEM_PER_PAGE } from "@/utils/constant";
 
 const handleGetAllOrders = async (page: number) => {
   const pageSize = ITEM_PER_PAGE;

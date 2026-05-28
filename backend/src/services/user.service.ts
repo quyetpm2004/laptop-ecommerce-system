@@ -1,8 +1,8 @@
-import { prisma } from "config/client";
-import { ACCOUNT_TYPE, TOTAL_ITEM_PER_PAGE } from "config/constant";
+import { prisma } from "@/config/client";
+import { ACCOUNT_TYPE, TOTAL_ITEM_PER_PAGE } from "@/config/constant";
+import { ITEM_PER_PAGE } from "@/utils/constant";
 
 import bcrypt from "bcrypt";
-import { ITEM_PER_PAGE } from "src/utils/constant";
 const saltRounds = 10;
 
 const hashPassword = async (plainText: string) => {
@@ -73,7 +73,7 @@ const handleCreateUser = async (
   phone: string,
   avatar: string,
   role: string,
-  password: string
+  password: string,
 ) => {
   const hashedPassword = await hashPassword(password);
   return await prisma.user.create({
@@ -126,7 +126,7 @@ const handleUpdateUser = async (
   roleId: string,
   address: string,
   avatar: string,
-  userId: string
+  userId: string,
 ) => {
   try {
     await prisma.user.update({
