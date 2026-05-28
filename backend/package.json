@@ -24,6 +24,7 @@
   "dependencies": {
     "@prisma/client": "6.3.0",
     "@quixo3/prisma-session-store": "3.1.13",
+    "@types/node": "^20.19.41",
     "bcrypt": "5.1.1",
     "cors": "2.8.5",
     "dotenv": "16.4.7",
@@ -46,7 +47,6 @@
     "@types/express-session": "1.18.1",
     "@types/jsonwebtoken": "9.0.9",
     "@types/multer": "1.4.12",
-    "@types/node": "^22.10.7",
     "@types/passport": "1.0.17",
     "@types/passport-local": "1.0.38",
     "nodemon": "3.1.9",
