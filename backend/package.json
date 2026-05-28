@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "start:debug": "nodemon --inspect=9229 -e ts,tsx --exec node -r ts-node/register -r tsconfig-paths/register ./src/app.ts",
-    "start": "ts-node ./src/app.ts"
+    "build": "tsc && npx prisma generate",
+    "start": "node dist/app.js"
   },
   "nodemonConfig": {
     "watch": [
@@ -50,9 +51,9 @@
     "@types/passport-local": "1.0.38",
     "nodemon": "3.1.9",
     "prisma": "6.3.0",
-    "ts-node": "10.9.2",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.9.3"
   }
 }
