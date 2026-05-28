@@ -5,9 +5,9 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon",
-    "start:debug": "nodemon --inspect=9229 -e ts,tsx --exec node -r ts-node/register -r tsconfig-paths/register ./src/app.ts",
-    "build": "tsc && npx prisma generate",
-    "start": "node dist/app.js"
+    "build": "prisma generate && prisma migrate deploy && tsc",
+    "start": "node dist/app.js",
+    "postinstall": "prisma generate"
   },
   "nodemonConfig": {
     "watch": [

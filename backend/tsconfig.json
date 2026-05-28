@@ -14,7 +14,6 @@
       "models/*": ["./src/models/*"],
       "services/*": ["./src/services/*"],
       "routes/*": ["./src/routes/*"]
-    },
-    "types": ["node", "express", "multer"]
+    }
   }
 }
