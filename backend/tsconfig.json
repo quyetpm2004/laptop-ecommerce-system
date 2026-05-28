@@ -8,6 +8,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "baseUrl": ".",
+    "types": ["node"],
+    "lib": ["ES2020"],
     "paths": {
       "config/*": ["./src/config/*"],
       "controllers/*": ["./src/controllers/*"],
