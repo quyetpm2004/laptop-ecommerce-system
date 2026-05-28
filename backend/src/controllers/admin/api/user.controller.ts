@@ -40,7 +40,7 @@ const createNewUser = async (req: Request, res: Response) => {
       phone,
       avatar,
       role,
-      password
+      password,
     );
     res.status(201).json({
       data: user,
@@ -65,7 +65,7 @@ const updateUser = async (req: Request, res: Response) => {
       roleId,
       address,
       avatar,
-      id
+      id,
     );
     res.status(200).json({
       data: user,

@@ -3,7 +3,7 @@ import "dotenv/config";
 import initDatabase from "./config/seed";
 import cors from "cors";
 import router from "routes/api";
-const express = require("express");
+import express from "express";
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
-  })
+  }),
 );
 
 // config view engine
