@@ -28,7 +28,7 @@ const handleGetDetailProduct = async (id: string) => {
 const handleAddProductToCart = async (
   quantity: number,
   productId: number,
-  userId: number
+  userId: number,
 ) => {
   const cart = await prisma.cart.findUnique({
     where: { userId: userId },
@@ -39,6 +39,10 @@ const handleAddProductToCart = async (
       id: productId,
     },
   });
+
+  if (!product) {
+    throw new Error("Không tìm thấy sản phẩm");
+  }
 
   // has card
   if (cart) {
@@ -114,6 +118,9 @@ const handleGetCartDetail = async (id: number) => {
       userId: +id,
     },
   });
+  if (!cart) {
+    throw new Error("Không tìm thấy giỏ hàng");
+  }
   const cardId = cart.id;
   const cartDetails = await prisma.cartDetail.findMany({
     select: {
@@ -208,7 +215,7 @@ const handleDeleteCartDetail = async (cartDetailId: number, userId: number) => {
 
 const updateCartDetailBeforeCheckout = async (
   data: { id: string; quantity: string }[],
-  userId: number
+  userId: number,
 ) => {
   var newQuantity = 0;
 
@@ -239,7 +246,7 @@ const handlePlaceOrder = async (
   receiverName: string,
   receiverAddress: string,
   receiverPhone: string,
-  totalPrice: number
+  totalPrice: number,
 ) => {
   // tạo transaction
 
@@ -319,7 +326,7 @@ const handlePlaceOrder = async (
 const handleUpdateCardDetail = async (
   userId: number,
   cartDetailId: number,
-  delta: number
+  delta: number,
 ) => {
   if (![1, -1].includes(delta)) {
     throw new Error("Delta không hợp lệ");
@@ -330,6 +337,10 @@ const handleUpdateCardDetail = async (
       userId,
     },
   });
+
+  if (!cart) {
+    throw new Error("Không tìm thấy giỏ hàng");
+  }
 
   const cartDetail = await prisma.cartDetail.findFirst({
     where: {

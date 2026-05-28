@@ -7,13 +7,14 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": "src",
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "config/*": ["./src/config/*"],
       "controllers/*": ["./src/controllers/*"],
       "models/*": ["./src/models/*"],
       "services/*": ["./src/services/*"],
-      "routes/*": ["./src/routes/*"],
+      "routes/*": ["./src/routes/*"]
     }
   }
 }

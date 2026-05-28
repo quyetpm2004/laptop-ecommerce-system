@@ -37,7 +37,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       alert(
-        error.response?.data?.message || "Đăng nhập thất bại. Vui lòng thử lại!"
+        error.response?.data?.message ||
+          "Đăng nhập thất bại. Vui lòng thử lại!",
       );
     } finally {
       setIsLoading(false);
@@ -77,7 +78,7 @@ const LoginPage = () => {
               <Input
                 type="email"
                 placeholder="mail@abc.com"
-                className="rounded-xl border-gray-200 py-6"
+                className="rounded-xl border-gray-200 py-6 outline-none"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)} // Cập nhật state email
                 required
@@ -89,7 +90,7 @@ const LoginPage = () => {
               <Input
                 type="password"
                 placeholder="Min. 6 characters"
-                className="rounded-xl border-gray-200 py-6"
+                className="rounded-xl border-gray-200 py-6 outline-none"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // Cập nhật state password
                 required

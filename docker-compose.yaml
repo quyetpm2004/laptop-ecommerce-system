@@ -1,41 +1,54 @@
-version: "3.8"
-
 services:
   db:
     image: mysql:8.0
-    container_name: laptopshop-db
-    restart: always
+    restart: unless-stopped
     environment:
-      environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: laptopshop
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-laptopshop}
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - app_net
 
   backend:
     build: ./backend
-    container_name: laptopshop-backend
+    restart: unless-stopped
     ports:
       - "3000:8000"
     environment:
-      - PORT=8000
-      - DB_PORT=3306
-      - DB_HOST=db
-      - DATABASE_URL=mysql://root:123456@db:3306/laptopshop
+      NODE_ENV: production
+      PORT: 8000
+      DB_PORT: 3306
+      DB_HOST: db
+      DB_USERNAME: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE:-laptopshop}
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE:-laptopshop}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - app_net
 
   frontend:
     build: ./frontend
-    container_name: laptopshop-frontend
+    restart: unless-stopped
     ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
+      - "80:4173"
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
     depends_on:
       - backend
+    networks:
+      - app_net
 
 volumes:
   db_data:
+
+networks:
+  app_net:
