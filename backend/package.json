@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "prisma generate && prisma migrate deploy && tsc",
-    "start": "node dist/app.js",
+    "start": "node -r tsconfig-paths/register dist/app.js",
     "postinstall": "prisma generate"
   },
   "nodemonConfig": {
@@ -36,6 +36,7 @@
     "mysql2": "3.12.0",
     "passport": "0.7.0",
     "passport-local": "1.0.0",
+    "tsconfig-paths": "^4.2.0",
     "uuid": "11.0.5",
     "zod": "3.24.2"
   },
@@ -53,7 +54,6 @@
     "prisma": "6.3.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "tsconfig-paths": "4.2.0",
     "typescript": "^5.9.3"
   }
 }
